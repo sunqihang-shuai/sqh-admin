@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+   例如namespace="com.szh.mapper.personMapper"就是com.szh.mapper(包名)+personMapper(personMapper.xml文件去除后缀) -->
+<mapper namespace="com.fh.sqh.mapper.orderMapper">
+
+    <insert id="addOrder" parameterType="com.fh.sqh.model.po.Order" useGeneratedKeys="true" keyProperty="orderId" keyColumn="orderId">
+        insert t_order (createDate,userId,orderPayType,orderCount,orderTotalMoney,payStatus,loginUserId)
+        values
+        (#{createDate},#{userId},#{orderPayType},#{orderCount},#{orderTotalMoney},#{payStatus},#{loginUserId})
+    </insert>
+
+    <select id="queryOrderById" parameterType="Integer" resultType="com.fh.sqh.model.po.Order">
+        select * from t_order where orderId=#{orderId}
+    </select>
+
+    <update id="updateOrder" parameterType="com.fh.sqh.model.po.Order">
+        update t_order set payStatus = #{payStatus} where orderId=#{orderId}
+    </update>
+
+    <select id="queryMyOrder" parameterType="Integer" resultType="com.fh.sqh.model.po.Order">
+       select tu.userName,tor.* from t_order tor left join t_usermessage tu on tor.userId=tu.userId where loginUserId=#{userId}
+   </select>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+   例如namespace="com.szh.mapper.personMapper"就是com.szh.mapper(包名)+personMapper(personMapper.xml文件去除后缀) -->
+<mapper namespace="com.fh.sqh.mapper.userMessageMapper">
+
+    <select id="queryUserMessage" parameterType="java.lang.String" resultType="com.fh.sqh.model.vo.UserMessageInfo">
+        select * from t_usermessage where siteId=#{iphone}
+    </select>
+
+    <insert id="addUserMessage" parameterType="com.fh.sqh.model.po.UserMessage">
+        insert into t_usermessage (userName,userIphone,areaIds,createDate,detailArea,siteId,userIsCheck)
+        values
+        (#{userName},#{userIphone},#{areaIds},#{createDate},#{detailArea},#{siteId},#{userIsCheck})
+    </insert>
+
+    <delete id="deleteUserMessage" parameterType="java.lang.Integer">
+        delete from t_usermessage where userId=#{userId}
+    </delete>
+
+    <update id="uodateIsCheck" >
+         update t_usermessage set
+        userIsCheck=1
+        where userId=#{userId}
+    </update>
+
+    <update id="updateIsCheck" >
+         update t_usermessage set
+        userIsCheck=2
+        where userIphone=#{iphone} and userId!=#{userId}
+    </update>
+
+    <select id="queryUserMessageById" resultType="com.fh.sqh.model.po.UserMessage" >
+        select * from t_usermessage where userIphone=#{userIphone}
+    </select>
+
+</mapper>
